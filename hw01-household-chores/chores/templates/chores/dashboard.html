@@ -1,0 +1,21 @@
+{% extends "chores/base.html" %}
+{% block title %}Dashboard | Household Chores{% endblock %}
+{% block content %}
+<h1>Household chores</h1>
+<p>See what needs attention and what has already been completed.</p>
+
+<section>
+  <h2>Overdue</h2>
+  {% include "chores/chore_list.html" with chores=overdue_chores show_complete=True empty_message="No overdue chores." %}
+</section>
+
+<section>
+  <h2>Outstanding</h2>
+  {% include "chores/chore_list.html" with chores=outstanding_chores show_complete=True empty_message="No outstanding chores." %}
+</section>
+
+<section>
+  <h2>Completed</h2>
+  {% include "chores/chore_list.html" with chores=completed_chores show_complete=False empty_message="No completed chores." %}
+</section>
+{% endblock %}

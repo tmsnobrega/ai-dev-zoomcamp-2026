@@ -1,0 +1,18 @@
+<ul>
+  {% for chore in chores %}
+    <li>
+      <strong>{{ chore.title }}</strong> — {{ chore.assignee.name }}
+      {% if chore.description %}<br>{{ chore.description }}{% endif %}
+      <br>Due: {{ chore.due_date }}
+      {% if chore.completed_at %}<br>Completed: {{ chore.completed_at }}{% endif %}
+      {% if show_complete %}
+        <form method="post" action="{% url 'complete_chore' chore.id %}">
+          {% csrf_token %}
+          <button type="submit">Mark completed</button>
+        </form>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>{{ empty_message }}</li>
+  {% endfor %}
+</ul>

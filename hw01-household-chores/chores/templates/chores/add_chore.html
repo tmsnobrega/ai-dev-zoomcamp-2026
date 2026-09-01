@@ -1,0 +1,11 @@
+{% extends "chores/base.html" %}
+{% block title %}Add chore | Household Chores{% endblock %}
+{% block content %}
+<h1>Add a chore</h1>
+<p>Add a household member first if the assignee list is empty.</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save chore</button>
+</form>
+{% endblock %}

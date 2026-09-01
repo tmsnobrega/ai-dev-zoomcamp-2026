@@ -1,0 +1,15 @@
+{% extends "chores/base.html" %}
+{% block title %}Members | Household Chores{% endblock %}
+{% block content %}
+<h1>Household members</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add member</button>
+</form>
+
+<section>
+  <h2>Current members</h2>
+  <ul>{% for member in members %}<li>{{ member.name }}</li>{% empty %}<li>No members yet.</li>{% endfor %}</ul>
+</section>
+{% endblock %}
