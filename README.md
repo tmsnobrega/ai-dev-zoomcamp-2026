@@ -7,3 +7,7 @@ validation evidence remain easy to review.
 ## Homework
 
 - [Homework 1: Household Chores](hw01-household-chores/README.md)
+
+## Final project
+
+- [ReportReady](project/README.md)
