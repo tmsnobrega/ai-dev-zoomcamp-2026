@@ -1,0 +1,10 @@
+.venv/
+.uv-cache/
+.npm-cache/
+__pycache__/
+*.py[cod]
+*.sqlite3
+.pytest_cache/
+node_modules/
+dist/
+.env
