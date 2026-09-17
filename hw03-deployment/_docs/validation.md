@@ -44,15 +44,18 @@ The six quiz answers and explanations are in [`../homework-answers.md`](../homew
 5. `Deployment`.
 6. Keep the existing version running and stop deployment.
 
+## Course form submission
+
+- Submitted through the [Homework 3 course form](https://courses.datatalks.club/ai-dev-tools-2026/homework/hw3) on 17 September 2026.
+- The form confirmed: “Thank you for submitting your homework, now your solution is saved.” Its status changed to `Submitted` and showed `Last saved at 17 September 2026 (Thu), 16:38` in the account timezone.
+- Verified all six saved choices against `../homework-answers.md`; the public project URL points to `https://github.com/tmsnobrega/ai-dev-zoomcamp-2026/tree/main/hw03-deployment`.
+- Optional lecture/homework hours, social links, and FAQ contribution were left blank because no accurate values or links were provided.
+
 ## Remaining external steps
 
-- The connected in-app browser still showed a `Login` link and disabled radio
-  buttons after the user signed into Chrome. The signed-in Chrome session is
-  not exposed to this task, so the course form has **not** been submitted.
-  Connect that session or sign in to the course form before saving the six
-  answers.
 - The official instructions also say to fork the upstream Agent Relay starter.
   The starter files are included here, but the connected GitHub tools do not
   expose a fork operation; no separate fork was created.
 - Learning-in-public social posts are examples/requests to share. No post was
   created; the user should review and publish one personally if desired.
+
