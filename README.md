@@ -11,6 +11,7 @@ Codex task can work from the same confirmed context.
 
 - [Homework 1: Household Chores](hw01-household-chores/README.md)
 - [Homework 2: TaskLane mini Kanban board](hw02-mini-kanban/README.md)
+- [Homework 3: Test, Containerize, and Deploy](hw03-deployment/README.md)
 
 ## Final project
 
