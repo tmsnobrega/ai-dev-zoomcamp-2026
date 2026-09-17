@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: relay
+      POSTGRES_USER: relay
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-only-change-me}
+    volumes:
+      - relay-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U relay -d relay"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    environment:
+      RELAY_DATABASE_URL: postgresql+psycopg://relay:${POSTGRES_PASSWORD:-local-only-change-me}@postgres:5432/relay
+      RELAY_ENROLLMENT_SECRET: ${RELAY_ENROLLMENT_SECRET:-local-enrollment-change-me}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  postgres-test:
+    image: postgres:17-alpine
+    profiles: [test]
+    environment:
+      POSTGRES_DB: relay_test
+      POSTGRES_USER: relay
+      POSTGRES_PASSWORD: test-only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U relay -d relay_test"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  api-test:
+    build:
+      context: .
+      target: test
+    profiles: [test]
+    environment:
+      RELAY_DATABASE_URL: postgresql+psycopg://relay:test-only@postgres-test:5432/relay_test
+      RELAY_ENROLLMENT_SECRET: integration-only
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  integration:
+    build:
+      context: .
+      target: test
+    profiles: [test]
+    environment:
+      API_BASE_URL: http://api-test:8000
+      RELAY_ENROLLMENT_SECRET: integration-only
+    command: ["uv", "run", "--frozen", "pytest", "-q", "tests/test_integration.py"]
+    depends_on:
+      api-test:
+        condition: service_healthy
+
+volumes:
+  relay-data:

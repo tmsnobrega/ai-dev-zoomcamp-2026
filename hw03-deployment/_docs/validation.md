@@ -1,24 +1,58 @@
-# Validation record
+# Homework 3 validation record
 
-Checked on 17 September 2026.
+Checked on 17 September 2026. Source of assignment scope: the [official
+Homework 3 instructions](https://github.com/DataTalksClub/ai-dev-tools-zoomcamp/blob/main/cohorts/2026/homework/03-deployment/homework.md).
+The six quiz answers and explanations are in [`../homework-answers.md`](../homework-answers.md).
 
-- Opened the Homework 3 course page in the in-app browser. It displayed six
-  multiple-choice questions and a deadline of 25 September 2026 at 01:00 in
-  the account timezone. The page was logged out and showed the questions as
-  disabled, so no answers were saved.
-- Confirmed the module's deployment sequence and release gate in the
-  [official Module 3 lesson](https://github.com/DataTalksClub/ai-dev-tools-zoomcamp/blob/main/03-deployment/01-test-containerize-and-deploy-an-ai-assisted-app.md)
-  and [course article](https://aishippingblog.com/p/deploy-a-full-stack-app-with-ai-coding).
-- Confirmed Docker port publishing with the
-  [Docker CLI reference](https://docs.docker.com/reference/cli/docker/container/run/)
-  and Compose service-name lookup with the
-  [Docker Compose networking guide](https://docs.docker.com/compose/how-tos/networking/).
-- Confirmed Deployment replica management and updates in the
-  [Kubernetes Deployment documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
-- Answers 1 and 2 are based on the task-queue design and task-state terminology
-  in the questions; the public Module 3 lesson does not define that separate
-  agent-task system. Recheck those two against any course clarification before
-  submission if the instructor publishes additional context.
-- This is a knowledge-check submission, so there is no local code or build to
-  test. Course submission has not yet been verified.
+## Assignment steps completed
 
+- Read `SPEC.md` and the starter project. Confirmed the flow: sender creates a
+  queued task, recipient claims it through the API, and sender can read the
+  result after the status becomes `completed`.
+- Ran the starter SQLite protocol suite before changes: 4 tests passed.
+- Added PostgreSQL row-level locking for task claims (`FOR UPDATE SKIP LOCKED`)
+  and consistent task/attempt locks for recovery and completion. Retained the
+  SQLite test path.
+- Re-ran the SQLite protocol suite: **4 passed** (one upstream Starlette/httpx
+  deprecation warning).
+- Built and ran the standalone production container with host port 18001
+  published to container port 8000. Verified the dashboard said `Agent Relay
+  v2`, and the sender saw a completed result. The temporary test container was
+  stopped and removed.
+- Built the Docker `test` image and ran the separate Compose PostgreSQL stack.
+  The two-agent HTTP integration test raced two claims, completed the task, and
+  verified the sender's result: **1 passed**.
+- Built the production Docker image `agent-relay:hw03-local` and deployed it
+  with PostgreSQL to a local `kind` cluster. Confirmed both pods ready, the
+  PostgreSQL PVC bound, and the app Service available.
+- Port-forwarded the live service. Verified `/ready` returned `ready`, the
+  dashboard showed `Agent Relay v2`, and a live sender/recipient task flow
+  ended as `completed` with the expected result.
+- Added `.github/workflows/ci.yml`: tests run in one job; a dependent job builds
+  the image and deploys to a disposable `kind` cluster only after tests pass.
+- Ran the full workflow locally with `act`: the four SQLite tests passed, the
+  PostgreSQL HTTP integration test passed, the unique image was loaded into
+  `kind`, rollouts completed, and the smoke test confirmed both `/ready` and
+  the `Agent Relay v2` dashboard heading.
+
+## Quiz answers
+
+1. Agents claim tasks from a database through an HTTP API.
+2. `completed`.
+3. `-p`.
+4. `postgres`.
+5. `Deployment`.
+6. Keep the existing version running and stop deployment.
+
+## Remaining external steps
+
+- The connected in-app browser still showed a `Login` link and disabled radio
+  buttons after the user signed into Chrome. The signed-in Chrome session is
+  not exposed to this task, so the course form has **not** been submitted.
+  Connect that session or sign in to the course form before saving the six
+  answers.
+- The official instructions also say to fork the upstream Agent Relay starter.
+  The starter files are included here, but the connected GitHub tools do not
+  expose a fork operation; no separate fork was created.
+- Learning-in-public social posts are examples/requests to share. No post was
+  created; the user should review and publish one personally if desired.

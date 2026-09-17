@@ -1,14 +1,15 @@
-# Homework 3: Test, Containerize, and Deploy
+# Homework 3: Containerize and Deploy
 
-This folder contains the answers for Homework 3's six-question course-platform
-knowledge check. The course preview does not ask for an application, code
-upload, or video for this assignment.
+The official assignment has six practical sections and a six-question course
+quiz. The complete Agent Relay work is in [`agent-relay/`](agent-relay/):
+PostgreSQL row-locking, SQLite unit tests, a PostgreSQL HTTP integration test,
+Docker/Compose, Kubernetes manifests, and a CI workflow that gates deployment
+on passing tests.
 
-See [`homework-answers.md`](homework-answers.md) for the selected answers and
-short explanations. The deadline shown by the course form is 25 September 2026
-at 01:00 in the account timezone.
+- [Answers and explanations](homework-answers.md)
+- [Source, build, container, database, cluster, and CI validation record](_docs/validation.md)
+- [Agent Relay project guide](agent-relay/README.md)
 
-The source checks and submission state are recorded in
-[`_docs/validation.md`](_docs/validation.md). The answers are prepared locally;
-they have not yet been submitted through the course platform.
-
+The course form deadline is 25 September 2026 at 01:00 in the account
+timezone. The answers are documented and locally verified; course-form
+submission status is recorded in the validation file.
